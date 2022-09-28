@@ -55,7 +55,26 @@ func New(config *Configuration) *FTXWS {
 	return b
 }
 
-func (b *FTXWS) Subscribe(channel string, coin string) {
+func (b *FTXWS) Subscribe(args ...string) {
+	switch len(args) {
+	case 2:
+		b.Subscribe2(args[0], args[1])
+	default:
+		log.Printf(`
+			{
+				"Status" : "Error",
+				"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
+				"File": "client.go",
+				"Functions" : "(b *FTXWS) Subscribe(args ...string
+				"Exchange" : "FTX",
+				"Data" : [%v],
+				"Comment" : "Слишком много аргументов"
+			}`, args)
+		log.Fatal()
+	}
+}
+
+func (b *FTXWS) Subscribe2(channel string, coin string) {
 	cmd := Cmd{
 		Op:      "subscribe",
 		Channel: channel,
@@ -75,7 +94,7 @@ func (b *FTXWS) SendCmd(cmd Cmd) {
 		log.Printf(`
 			{
 				"Status" : "Error",
-				"Path to file" : "CCXT_beYANG_FTX/ftx",
+				"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
 				"File": "client.go",
 				"Functions" : "(b *FTXWS) sendCmd(cmd Cmd)",
 				"Function where err" : "json.Marshal",
@@ -99,7 +118,7 @@ func (b *FTXWS) Send(msg string) (err error) {
 				log.Printf(`
 					{
 						"Status" : "Error",
-						"Path to file" : "CCXT_beYANG_FTX/ftx",
+						"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
 						"File": "client.go",
 						"Functions" : "(b *FTXWS) Send(msg string) (err error)",
 						"Function where err" : "json.Marshal",
@@ -158,7 +177,7 @@ func (b *FTXWS) Start() error {
 				} else {
 					log.Printf(`{
 						"Status" : "Error",
-						"Path to file" : "CCXT_beYANG_FTX/ftx",
+						"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
 						"File": "client.go",
 						"Functions" : "(b *FTXWS) Start() error",
 						"Function where err" : "b.conn.ReadMessage",
@@ -197,7 +216,7 @@ func (b *FTXWS) Auth() {
 		log.Printf(`
 			{
 				"Status" : "Error",
-				"Path to file" : "CCXT_beYANG_FTX/ftx",
+				"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
 				"File": "client.go",
 				"Functions" : "(b *FTXWS) Auth()",
 				"Function where err" : "json.Marshal",
@@ -219,7 +238,7 @@ func (b *FTXWS) connect() {
 	if err != nil {
 		log.Printf(`{
 						"Status" : "Error",
-						"Path to file" : "CCXT_beYANG_FTX/ftx",
+						"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
 						"File": "client.go",
 						"Functions" : "(b *FTXWS) connect()",
 						"Function where err" : "websocket.DefaultDialer.Dial",
@@ -275,7 +294,7 @@ func (b *FTXWS) messageHandler(data []byte) {
 				log.Printf(`
 					{
 						"Status" : "Error",
-						"Path to file" : "CCXT_beYANG_FTX/ftx",
+						"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
 						"File": "client.go",
 						"Functions" : "(b *FTXWS) messageHandler(data []byte)",
 						"Function where err" : "json.Unmarshal",
@@ -290,7 +309,7 @@ func (b *FTXWS) messageHandler(data []byte) {
 			log.Printf(`
 				{
 					"Status" : "INFO",
-					"Path to file" : "CCXT_beYANG_FTX/ftx",
+					"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
 					"File": "client.go",
 					"Functions" : "(b *FTXWS) messageHandler(data []byte)",
 					"Exchange" : "FTX",
@@ -303,7 +322,7 @@ func (b *FTXWS) messageHandler(data []byte) {
 		log.Printf(`
 			{
 				"Status" : "Error",
-				"Path to file" : "CCXT_beYANG_FTX/ftx",
+				"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
 				"File": "client.go",
 				"Functions" : "(b *FTXWS) messageHandler(data []byte)",
 				"Exchange" : "FTX",
@@ -318,7 +337,7 @@ func (b *FTXWS) messageHandler(data []byte) {
 		log.Printf(`
 			{
 				"Status" : "INFO",
-				"Path to file" : "CCXT_beYANG_FTX/ftx",
+				"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
 				"File": "client.go",
 				"Functions" : "(b *FTXWS) messageHandler(data []byte)",
 				"Exchange" : "FTX",
