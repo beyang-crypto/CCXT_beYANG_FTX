@@ -4,7 +4,7 @@ import (
 	"log"
 
 	//ftxRest "github.com/TestingAccMar/CCXT_beYANG_FTX/ftx/rest"
-	ftxWS "github.com/TestingAccMar/CCXT_beYANG_FTX/ftx/ws"
+	ftxWS "github.com/TestingAccMar/CCXT_beYANG_FTX/ftx/spot/ws"
 )
 
 func main() {
@@ -19,14 +19,17 @@ func main() {
 		Addr:      ftxWS.HostMainnetPublicTopics,
 		ApiKey:    "",
 		SecretKey: "",
-		DebugMode: true,
+		DebugMode: false,
 	}
 	b := ftxWS.New(cfg)
 	b.Start()
 
-	b.Subscribe(ftxWS.ChannelTicker, b.GetPair("BTC", "USDT"))
+	pair1 := b.GetPair("BTC", "USDT")
+	pair2 := b.GetPair("eth", "USDT")
+	b.Subscribe(ftxWS.ChannelTicker, []string{pair1})
+	b.Subscribe(ftxWS.ChannelTicker, []string{pair2})
 
-	b.On(ftxWS.ChannelTicker, handleBookTicker)
+	b.On(ftxWS.ChannelTicker, handleBestBidPrice)
 
 	// go func() {
 	// 	time.Sleep(5 * time.Second)
