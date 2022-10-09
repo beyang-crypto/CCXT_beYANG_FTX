@@ -1,7 +1,5 @@
 package rest
 
-import "log"
-
 //https://docs.ftx.com/#get-balances
 type WalletBalance struct {
 	Success bool                  `json:"success"`
@@ -16,19 +14,7 @@ type resultWalletBalance struct {
 	AvailableWithoutBorrow float64 `json:"availableWithoutBorrow"`
 }
 
-func FTXToWalletBalance(data interface{}) WalletBalance {
+func FTXToWalletBalance(data interface{}) (WalletBalance, bool) {
 	bt, ok := data.(WalletBalance)
-	if !ok {
-		log.Printf(`
-			{
-				"Status" : "Error",
-				"Path to file" : "CCXT_beYANG_FTX/ftx/rest",
-				"File": "response.go",
-				"Functions" : "FTXToWalletBalance(data interface{}) WalletBalance
-				"Exchange" : "FTX",
-				"Comment" : "Ошибка преобразования %v в WalletBalance"
-			}`, data)
-		log.Fatal()
-	}
-	return bt
+	return bt, ok
 }

@@ -19,7 +19,7 @@ func main() {
 		Addr:      ftxWS.HostMainnetPublicTopics,
 		ApiKey:    "",
 		SecretKey: "",
-		DebugMode: false,
+		DebugMode: true,
 	}
 	b := ftxWS.New(cfg)
 	b.Start()
@@ -44,10 +44,10 @@ func main() {
 	<-forever
 }
 
-func handleBookTicker(symbol string, data ftxWS.Ticker) {
-	log.Printf("Ftx Ticker  %s: %v", symbol, data)
+func handleBookTicker(name string, symbol string, data ftxWS.Ticker) {
+	log.Printf("%s Ticker  %s: %v", name, symbol, data)
 }
 
-func handleBestBidPrice(symbol string, data ftxWS.Ticker) {
-	log.Printf("Ftx BookTicker  %s: BestBidPrice : %f", symbol, data.Data.Bid)
+func handleBestBidPrice(name string, symbol string, data ftxWS.Ticker) {
+	log.Printf("%s BookTicker  %s: BestBidPrice : %f", name, symbol, data.Data.Bid)
 }

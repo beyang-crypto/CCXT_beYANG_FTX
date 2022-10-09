@@ -68,7 +68,7 @@ func (ex *FTXWS) GetBalance() interface{} {
 		log.Fatalln(err)
 	}
 	if ex.cfg.DebugMode {
-		log.Printf("BinanceWalletBalance %v", string(data))
+		log.Printf("STATUS: DEBUG\tEXCHANGE: FTX\tAPI: Rest\tEXCHANGE: FTX\tAPI: WS\tFTXWalletBalance %v", string(data))
 	}
 
 	var walletBalance WalletBalance
@@ -77,11 +77,11 @@ func (ex *FTXWS) GetBalance() interface{} {
 		log.Printf(`
 			{
 				"Status" : "Error",
-				"Path to file" : "CCXT_beYANG_FTX/ftx",
+				"Path to file" : "CCXT_beYANG_FTX/ftx/spot/rest",
 				"File": "api.go",
-				"Functions" : "(ex *FTXWS) GetBalance() (WalletBalance)",
+				"Functions" : "(ex *FTXWS) GetBalance() interface{}",
 				"Function where err" : "json.Unmarshal",
-				"Exchange" : "Ftx",
+				"Exchange" : "FTX",
 				"Comment" : %s to WalletBalance struct,
 				"Error" : %s
 			}`, string(data), err)

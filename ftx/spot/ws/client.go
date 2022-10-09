@@ -67,14 +67,14 @@ func (b *FTXWS) Subscribe(channel string, coins []string) {
 		}
 		b.subscribeCmds = append(b.subscribeCmds, cmd)
 		if b.cfg.DebugMode {
-			log.Printf("Создание json сообщения на подписку part 1")
+			log.Printf("STATUS: DEBUG\tEXCHANGE: FTX\tAPI: WS\tEXCHANGE: FTX\tAPI: WS\tСоздание json сообщения на подписку part 1")
 		}
 		b.SendCmd(cmd)
 	default:
 		log.Printf(`
 			{
 				"Status" : "Error",
-				"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
+				"Path to file" : "CCXT_beYANG_FTX/ftx/spot/ws",
 				"File": "client.go",
 				"Functions" : "(b *FTXWS) Subscribe(channel string, coins []string)
 				"Exchange" : "FTX",
@@ -93,7 +93,7 @@ func (b *FTXWS) Subscribe2(channel string, coin string) {
 	}
 	b.subscribeCmds = append(b.subscribeCmds, cmd)
 	if b.cfg.DebugMode {
-		log.Printf("Создание json сообщения на подписку part 1")
+		log.Printf("STATUS: DEBUG\tEXCHANGE: FTX\tAPI: WS\tСоздание json сообщения на подписку part 1")
 	}
 	b.SendCmd(cmd)
 }
@@ -105,7 +105,7 @@ func (b *FTXWS) SendCmd(cmd Cmd) {
 		log.Printf(`
 			{
 				"Status" : "Error",
-				"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
+				"Path to file" : "CCXT_beYANG_FTX/ftx/spot/ws",
 				"File": "client.go",
 				"Functions" : "(b *FTXWS) sendCmd(cmd Cmd)",
 				"Function where err" : "json.Marshal",
@@ -116,7 +116,7 @@ func (b *FTXWS) SendCmd(cmd Cmd) {
 		log.Fatal()
 	}
 	if b.cfg.DebugMode {
-		log.Printf("Создание json сообщения на подписку part 2")
+		log.Printf("STATUS: DEBUG\tEXCHANGE: FTX\tAPI: WS\tСоздание json сообщения на подписку part 2")
 	}
 	b.Send(string(data))
 }
@@ -129,7 +129,7 @@ func (b *FTXWS) Send(msg string) (err error) {
 				log.Printf(`
 					{
 						"Status" : "Error",
-						"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
+						"Path to file" : "CCXT_beYANG_FTX/ftx/spot/ws",
 						"File": "client.go",
 						"Functions" : "(b *FTXWS) Send(msg string) (err error)",
 						"Function where err" : "json.Marshal",
@@ -144,7 +144,7 @@ func (b *FTXWS) Send(msg string) (err error) {
 		}
 	}()
 	if b.cfg.DebugMode {
-		log.Printf("Отправка сообщения на сервер. текст сообщения:%s", msg)
+		log.Printf("STATUS: DEBUG\tEXCHANGE: FTX\tAPI: WS\tОтправка сообщения на сервер. текст сообщения:%s", msg)
 	}
 
 	err = b.conn.WriteMessage(websocket.TextMessage, []byte(msg))
@@ -154,7 +154,7 @@ func (b *FTXWS) Send(msg string) (err error) {
 // подключение к серверу и постоянное чтение приходящих ответов
 func (b *FTXWS) Start() error {
 	if b.cfg.DebugMode {
-		log.Printf("Начало подключения к серверу")
+		log.Printf("STATUS: DEBUG\tEXCHANGE: FTX\tAPI: WS\tНачало подключения к серверу")
 	}
 	b.connect()
 
@@ -188,7 +188,7 @@ func (b *FTXWS) Start() error {
 				} else {
 					log.Printf(`{
 						"Status" : "Error",
-						"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
+						"Path to file" : "CCXT_beYANG_FTX/ftx/spot/ws",
 						"File": "client.go",
 						"Functions" : "(b *FTXWS) Start() error",
 						"Function where err" : "b.conn.ReadMessage",
@@ -227,7 +227,7 @@ func (b *FTXWS) Auth() {
 		log.Printf(`
 			{
 				"Status" : "Error",
-				"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
+				"Path to file" : "CCXT_beYANG_FTX/ftx/spot/ws",
 				"File": "client.go",
 				"Functions" : "(b *FTXWS) Auth()",
 				"Function where err" : "json.Marshal",
@@ -238,7 +238,7 @@ func (b *FTXWS) Auth() {
 		log.Fatal()
 	}
 	if b.cfg.DebugMode {
-		log.Printf("Создание json сообщения на подписку")
+		log.Printf("STATUS: DEBUG\tEXCHANGE: FTX\tAPI: WS\tСоздание json сообщения на подписку")
 	}
 	b.Send(string(data))
 }
@@ -249,7 +249,7 @@ func (b *FTXWS) connect() {
 	if err != nil {
 		log.Printf(`{
 						"Status" : "Error",
-						"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
+						"Path to file" : "CCXT_beYANG_FTX/ftx/spot/ws",
 						"File": "client.go",
 						"Functions" : "(b *FTXWS) connect()",
 						"Function where err" : "websocket.DefaultDialer.Dial",
@@ -287,7 +287,7 @@ func (b *FTXWS) ping() {
 func (b *FTXWS) messageHandler(data []byte) {
 
 	if b.cfg.DebugMode {
-		log.Printf("FTXWs %v", string(data))
+		log.Printf("STATUS: DEBUG\tEXCHANGE: FTX\tAPI: WS\tFTXWs %v", string(data))
 	}
 
 	//	в ошибке нет необходимости, т.к. она выходит каждый раз, когда не найдет элемент
@@ -305,7 +305,7 @@ func (b *FTXWS) messageHandler(data []byte) {
 				log.Printf(`
 					{
 						"Status" : "Error",
-						"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
+						"Path to file" : "CCXT_beYANG_FTX/ftx/spot/ws",
 						"File": "client.go",
 						"Functions" : "(b *FTXWS) messageHandler(data []byte)",
 						"Function where err" : "json.Unmarshal",
@@ -315,12 +315,12 @@ func (b *FTXWS) messageHandler(data []byte) {
 					}`, string(data), err)
 				log.Fatal()
 			}
-			b.processTicker(market, ticker)
+			b.processTicker("FTX", market, ticker)
 		default:
 			log.Printf(`
 				{
 					"Status" : "INFO",
-					"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
+					"Path to file" : "CCXT_beYANG_FTX/ftx/spot/ws",
 					"File": "client.go",
 					"Functions" : "(b *FTXWS) messageHandler(data []byte)",
 					"Exchange" : "FTX",
@@ -333,7 +333,7 @@ func (b *FTXWS) messageHandler(data []byte) {
 		log.Printf(`
 			{
 				"Status" : "Error",
-				"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
+				"Path to file" : "CCXT_beYANG_FTX/ftx/spot/ws",
 				"File": "client.go",
 				"Functions" : "(b *FTXWS) messageHandler(data []byte)",
 				"Exchange" : "FTX",
@@ -348,7 +348,7 @@ func (b *FTXWS) messageHandler(data []byte) {
 		log.Printf(`
 			{
 				"Status" : "INFO",
-				"Path to file" : "CCXT_beYANG_FTX/ftx/ws",
+				"Path to file" : "CCXT_beYANG_FTX/ftx/spot/ws",
 				"File": "client.go",
 				"Functions" : "(b *FTXWS) messageHandler(data []byte)",
 				"Exchange" : "FTX",
